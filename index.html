@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar Brasil · Regime Macro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Expanded:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1117;--panel:#121C25;--panel2:#19262F;--line:rgba(255,255,255,0.07);--line2:rgba(255,255,255,0.14);
+    --ink:#EAEEF2;--muted:#8593A2;--muted2:#5C6B79;--gold:#D9A441;--hawk:#E0664A;--dove:#43B98C;
+    --display:'Archivo Expanded','Archivo',sans-serif;--body:'Inter',sans-serif;--mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  .up{color:var(--hawk)}.down{color:var(--dove)}.flat{color:var(--muted)}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(11,17,23,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .hbar{max-width:1200px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .brand{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+  .brand .dot{color:var(--gold)}
+  .ticker{display:flex;gap:18px;flex:1;flex-wrap:wrap;align-items:center}
+  .tk{display:flex;flex-direction:column;gap:1px}
+  .tk .k{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2)}
+  .tk .v{font-family:var(--mono);font-weight:600;font-size:14px}
+  .tk .v .arr{font-size:10px;margin-left:3px}
+  .copom{text-align:right}.copom .k{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  .copom .v{font-family:var(--display);font-weight:700;font-size:14px}
+  .refresh{background:transparent;border:1px solid var(--line2);color:var(--muted);font-family:var(--mono);font-size:11px;padding:7px 11px;border-radius:8px;cursor:pointer;white-space:nowrap}
+  .refresh:hover{color:var(--ink);border-color:var(--ink)}
+  .status{max-width:1200px;margin:0 auto;padding:5px 20px;font-family:var(--mono);font-size:10.5px;color:var(--muted2)}
+  .status .live{color:var(--dove)}
+
+  nav{position:sticky;top:55px;z-index:40;background:rgba(11,17,23,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;gap:4px;overflow-x:auto}
+  nav a{font-family:var(--mono);font-size:11.5px;color:var(--muted);padding:11px 11px;white-space:nowrap;border-bottom:2px solid transparent}
+  nav a:hover{color:var(--ink)} nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:8px 20px 70px}
+  section{padding-top:40px;scroll-margin-top:108px}
+  .s-head{display:flex;align-items:baseline;gap:12px;margin-bottom:15px;flex-wrap:wrap}
+  .s-num{font-family:var(--mono);font-size:12px;color:var(--gold)}
+  .s-title{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.01em}
+  .s-desc{color:var(--muted);font-size:13px;flex-basis:100%;max-width:80ch}
+
+  /* regime hero */
+  .regime{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+  @media(max-width:860px){.regime{grid-template-columns:1fr}}
+  .scorebox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .scorerow{display:flex;gap:14px;margin-bottom:14px}
+  .score{flex:1;background:var(--panel2);border-radius:11px;padding:14px}
+  .score .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2)}
+  .score .reg{font-family:var(--display);font-weight:800;font-size:22px;margin:6px 0 2px;letter-spacing:-.01em}
+  .score .num{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .bar{height:9px;border-radius:6px;margin-top:9px;position:relative;background:linear-gradient(90deg,var(--dove),#2c3a46 50%,var(--hawk))}
+  .bar.bolsa{background:linear-gradient(90deg,var(--hawk),#2c3a46 50%,var(--dove))}
+  .bar .pin{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:var(--ink);border:3px solid var(--panel2);transform:translate(-50%,-50%);transition:left .4s cubic-bezier(.2,.7,.3,1)}
+  .synth{font-size:13px;line-height:1.5;color:var(--ink);background:var(--panel2);border-radius:10px;padding:12px 13px}
+  .synth b{color:var(--gold)}
+
+  .mapbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column}
+  .mapbox .mt{font-weight:600;font-size:14px;margin-bottom:2px}
+  .mapbox .ms{color:var(--muted);font-size:11.5px;margin-bottom:8px}
+  svg{width:100%;height:auto;display:block}
+
+  .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px}
+  .metric{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 12px;position:relative}
+  .metric .k{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2)}
+  .metric .v{font-family:var(--display);font-weight:700;font-size:18px;margin-top:5px}
+  .metric .v .arr{font-size:11px;margin-left:2px}
+  .metric .src{font-family:var(--mono);font-size:8.5px;color:var(--muted2);margin-top:3px}
+  .metric.feed:after{content:"feed";position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:7.5px;
+    letter-spacing:.08em;color:var(--gold);border:1px solid var(--line2);border-radius:10px;padding:1px 5px}
+
+  /* semaforos */
+  .semgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+  .sem{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 13px;cursor:pointer;user-select:none;transition:border-color .15s}
+  .sem:hover{border-color:var(--line2)}
+  .sem .top{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+  .sem .nm{font-weight:600;font-size:13px}
+  .sem .tr{margin-left:auto;font-family:var(--mono);font-size:14px;font-weight:600}
+  .sem .st{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:9px}
+  .sem .chips{display:flex;gap:7px}
+  .chip{flex:1;display:flex;align-items:center;gap:6px;background:var(--panel2);border-radius:7px;padding:5px 8px;font-family:var(--mono);font-size:10px}
+  .chip .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  .chip .cl{color:var(--muted2);font-size:8px;letter-spacing:.06em;text-transform:uppercase}
+  .chip .vl{margin-left:auto;font-weight:600}
+  .dotG{background:var(--dove)}.dotR{background:var(--hawk)}.dotN{background:var(--muted2)}
+  .hint{font-family:var(--mono);font-size:10px;color:var(--muted2);margin-top:9px}
+
+  /* drivers */
+  .winrow{display:flex;gap:6px;margin-bottom:13px}
+  .winrow button{background:transparent;border:1px solid var(--line2);color:var(--muted);font-family:var(--mono);font-size:11px;padding:6px 13px;border-radius:7px;cursor:pointer}
+  .winrow button.on{background:var(--gold);color:#0c0f12;border-color:var(--gold)}
+  .drv{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+  .drv .dn{width:170px;font-size:12.5px;flex:0 0 auto}
+  .drv .dn small{font-family:var(--mono);color:var(--muted2);font-size:9.5px}
+  .drv .track{flex:1;height:20px;background:var(--panel2);border-radius:5px;position:relative;overflow:hidden}
+  .drv .track .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line2)}
+  .drv .track .fill{position:absolute;top:3px;bottom:3px;border-radius:3px}
+  .drv .z{width:54px;text-align:right;font-family:var(--mono);font-size:11px;flex:0 0 auto}
+
+  /* alerts */
+  .alerts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+  .alert{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:13px 14px;opacity:.5;transition:opacity .2s,border-color .2s}
+  .alert.on{opacity:1}
+  .alert.on.pos{border-color:var(--dove)} .alert.on.neg{border-color:var(--hawk)} .alert.on.warn{border-color:var(--gold)}
+  .alert .ah{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px;margin-bottom:5px}
+  .alert .led{width:9px;height:9px;border-radius:50%;background:var(--muted2)}
+  .alert.on.pos .led{background:var(--dove)} .alert.on.neg .led{background:var(--hawk)} .alert.on.warn .led{background:var(--gold)}
+  .alert .ad{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .alert .cond{font-family:var(--mono);font-size:10px;color:var(--muted2);margin-top:6px}
+
+  /* calendar */
+  .caltable{width:100%;border-collapse:collapse;font-size:12.5px}
+  .caltable th{text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:8px 10px;border-bottom:1px solid var(--line2)}
+  .caltable td{padding:9px 10px;border-bottom:1px solid var(--line)}
+  .caltable tr:hover td{background:var(--panel)}
+  .caltable .ev{font-weight:600}
+  .caltable .rel-a{color:var(--gold)} .caltable .rel-m{color:var(--muted)}
+  .tag{font-family:var(--mono);font-size:9px;letter-spacing:.05em;border:1px solid var(--line2);border-radius:10px;padding:2px 7px;color:var(--muted)}
+  .calnote{font-family:var(--mono);font-size:10.5px;color:var(--muted2);margin-top:10px;line-height:1.6}
+
+  .srcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(224px,1fr));gap:10px}
+  .srccard{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+  .srccard h4{font-size:13px;font-weight:600;margin-bottom:3px}
+  .srccard .tier{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+  .tier.live{color:var(--dove)} .tier.need{color:var(--gold)} .tier.pro{color:var(--muted)}
+  .srccard p{color:var(--muted);font-size:11.5px;margin-bottom:7px}
+  .srccard a{font-family:var(--mono);font-size:10.5px}
+  .foot{margin-top:42px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted2);font-size:11px;line-height:1.65}
+  .foot b{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hbar">
+    <div class="brand">RADAR BRASIL<span class="dot">.</span></div>
+    <div class="ticker">
+      <div class="tk"><span class="k">SELIC</span><span class="v" id="t-selic">14,50%<span class="arr flat">→</span></span></div>
+      <div class="tk"><span class="k">USD/BRL</span><span class="v" id="t-usd">5,15<span class="arr down">↓</span></span></div>
+      <div class="tk"><span class="k">IPCA 12m</span><span class="v" id="t-ipca">5,0%<span class="arr up">↑</span></span></div>
+      <div class="tk"><span class="k">Focus SELIC fim</span><span class="v" id="t-fselic">13,50%<span class="arr up">↑</span></span></div>
+    </div>
+    <div class="copom"><div class="k">Próx. COPOM</div><div class="v" id="t-copom">—</div></div>
+    <button class="refresh" id="btn-refresh">↻ Atualizar</button>
+  </div>
+  <div class="status" id="status">○ Dados de demonstração — hospede o arquivo para puxar os blocos gratuitos ao vivo do Banco Central.</div>
+</header>
+
+<nav><div class="nav-in" id="navin">
+  <a href="#regime" class="active">Regime</a>
+  <a href="#topo">Indicadores</a>
+  <a href="#semaforos">Semáforos</a>
+  <a href="#drivers">Drivers</a>
+  <a href="#alertas">Alertas</a>
+  <a href="#calendario">Calendário</a>
+  <a href="#fontes">Fontes</a>
+</div></nav>
+
+<div class="wrap">
+
+  <!-- REGIME -->
+  <section id="regime">
+    <div class="s-head"><span class="s-num">01</span><span class="s-title">Regime macro</span>
+      <p class="s-desc">A leitura de uma olhada: o mercado está precificando corte ou alta de SELIC, e a bolsa está em risk-on ou risk-off. Os scores são a síntese ponderada dos 13 blocos abaixo — ajuste qualquer bloco e tudo recalcula.</p></div>
+    <div class="regime">
+      <div class="scorebox">
+        <div class="scorerow">
+          <div class="score"><div class="lbl">Score SELIC</div><div class="reg" id="reg-selic">—</div><div class="num" id="num-selic"></div>
+            <div class="bar"><div class="pin" id="pin-selic" style="left:50%"></div></div></div>
+          <div class="score"><div class="lbl">Score Bolsa</div><div class="reg" id="reg-bolsa">—</div><div class="num" id="num-bolsa"></div>
+            <div class="bar bolsa"><div class="pin" id="pin-bolsa" style="left:50%"></div></div></div>
+        </div>
+        <div class="synth" id="synth"></div>
+      </div>
+      <div class="mapbox">
+        <div class="mt">Mapa de regime</div>
+        <div class="ms">posição atual no plano juros × risco</div>
+        <svg viewBox="0 0 400 360" role="img" aria-label="Mapa de regime: score SELIC no eixo X, score Bolsa no eixo Y">
+          <rect x="40" y="20" width="320" height="300" fill="#19262F" rx="8"/>
+          <line x1="200" y1="20" x2="200" y2="320" stroke="rgba(255,255,255,.12)"/>
+          <line x1="40" y1="170" x2="360" y2="170" stroke="rgba(255,255,255,.12)"/>
+          <text x="110" y="58" fill="#43B98C" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">Goldilocks</text>
+          <text x="110" y="72" fill="#5C6B79" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">dovish · risk-on</text>
+          <text x="290" y="58" fill="#8593A2" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">Reflação</text>
+          <text x="290" y="72" fill="#5C6B79" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">hawkish · risk-on</text>
+          <text x="110" y="290" fill="#8593A2" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">Desaceleração</text>
+          <text x="110" y="304" fill="#5C6B79" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">dovish · risk-off</text>
+          <text x="290" y="290" fill="#E0664A" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">Estagflação</text>
+          <text x="290" y="304" fill="#5C6B79" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">hawkish · risk-off</text>
+          <text x="200" y="338" fill="#5C6B79" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">← dovish      SELIC      hawkish →</text>
+          <text x="22" y="172" fill="#5C6B79" font-family="IBM Plex Mono" font-size="9" text-anchor="middle" transform="rotate(-90 22 172)">← risk-off   Bolsa   risk-on →</text>
+          <circle id="dot" cx="200" cy="170" r="9" fill="#D9A441" stroke="#0B1117" stroke-width="3"/>
+          <circle id="dotglow" cx="200" cy="170" r="16" fill="none" stroke="#D9A441" stroke-opacity="0.35"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPO -->
+  <section id="topo">
+    <div class="s-head"><span class="s-num">02</span><span class="s-title">Indicadores-chave</span>
+      <p class="s-desc">Os termômetros do topo do radar. Marcados com "feed" os que dependem de um provider de mercado (DI, NTN-B, CDS, índices, exterior) — os demais vêm do Banco Central quando hospedado.</p></div>
+    <div class="metrics" id="metrics"></div>
+  </section>
+
+  <!-- SEMAFOROS -->
+  <section id="semaforos">
+    <div class="s-head"><span class="s-num">03</span><span class="s-title">Blocos de semáforo</span>
+      <p class="s-desc">Cada bloco mostra dois semáforos: como ele inclina a SELIC (verde = dovish · vermelho = hawkish) e a Bolsa (verde = altista · vermelho = baixista). Um mesmo bloco pode ser verde para um e vermelho para o outro — é assim que regime se forma. Clique para alternar a leitura (↑ pressionando · → neutro · ↓ cedendo).</p></div>
+    <div class="semgrid" id="semgrid"></div>
+    <div class="hint">Os blocos de Inflação, Expectativas e Câmbio se pré-ajustam pela tendência dos dados do BCB quando hospedado; os demais começam neutros para você inserir sua leitura.</div>
+  </section>
+
+  <!-- DRIVERS -->
+  <section id="drivers">
+    <div class="s-head"><span class="s-num">04</span><span class="s-title">Drivers — o que mais mexeu</span>
+      <p class="s-desc">Variação padronizada (z-score) de cada indicador na janela escolhida, para comparar movimentos de naturezas diferentes na mesma régua. Verde = movimento benigno (alívio); vermelho = movimento adverso (aperto/risco). Câmbio é calculado ao vivo; os demais exigem o feed de mercado.</p></div>
+    <div class="winrow" id="winrow">
+      <button data-w="d1">1 dia</button><button data-w="d5" class="on">5 dias</button>
+      <button data-w="d30">30 dias</button><button data-w="m3">3 meses</button>
+    </div>
+    <div id="drvlist"></div>
+  </section>
+
+  <!-- ALERTAS -->
+  <section id="alertas">
+    <div class="s-head"><span class="s-num">05</span><span class="s-title">Alertas de reversão</span>
+      <p class="s-desc">Disparam quando uma combinação de blocos cruza os limiares de confirmação. Acendem conforme você atualiza as leituras dos semáforos.</p></div>
+    <div class="alerts" id="alerts"></div>
+  </section>
+
+  <!-- CALENDARIO -->
+  <section id="calendario">
+    <div class="s-head"><span class="s-num">06</span><span class="s-title">Calendário macro</span>
+      <p class="s-desc">Separa a data de referência (período a que o dado se refere) da data de divulgação (quando é publicado) — distinção essencial para não ler um indicador antes de ele existir e enviesar o backtest do radar.</p></div>
+    <table class="caltable">
+      <thead><tr><th>Evento</th><th>Referência</th><th>Divulgação (típica)</th><th>Engine</th><th>Relev.</th></tr></thead>
+      <tbody id="calbody"></tbody>
+    </table>
+    <div class="calnote">Datas de divulgação são padrões aproximados — o calendário oficial vem do IBGE e do BCB. O próximo COPOM de 2026 está destacado no topo. Para o radar operar sem viés de look-ahead, cada série deve ser indexada pela data de divulgação, não pela de referência.</div>
+  </section>
+
+  <!-- FONTES -->
+  <section id="fontes">
+    <div class="s-head"><span class="s-num">07</span><span class="s-title">Fontes & arquitetura</span>
+      <p class="s-desc">Blocos verdes já entram de graça; os amarelos precisam de um provider ou de um backend de ingestão para z-scores reais, breadth e datas de divulgação.</p></div>
+    <div class="srcgrid">
+      <div class="srccard"><div class="tier live">Ao vivo · grátis</div><h4>BCB — SGS + Focus</h4><p>SELIC, IPCA 12m, câmbio, crédito, IBC-Br, fiscal e expectativas. Alimenta inflação, expectativas, câmbio, atividade, crédito.</p><a href="https://dadosabertos.bcb.gov.br/" target="_blank" rel="noopener">dadosabertos.bcb.gov.br →</a></div>
+      <div class="srccard"><div class="tier live">Ao vivo · grátis</div><h4>IBGE / SIDRA</h4><p>IPCA, IPCA-15, núcleos, PIB, PNAD, PIM/PMC/PMS. Fonte oficial de inflação e atividade.</p><a href="https://sidra.ibge.gov.br/" target="_blank" rel="noopener">sidra.ibge.gov.br →</a></div>
+      <div class="srccard"><div class="tier need">Requer feed</div><h4>Tesouro / ANBIMA</h4><p>NTN-B, juros reais, IMA-B/IRF-M/IMA-S. Alimenta curva DI longa, juros reais e técnico de renda fixa.</p><a href="https://www.tesourotransparente.gov.br/" target="_blank" rel="noopener">tesourotransparente →</a></div>
+      <div class="srccard"><div class="tier need">Requer token</div><h4>brapi.dev / B3</h4><p>Ibovespa, IFIX, ações, setores. Alimenta técnico/breadth e parte do bloco Bolsa.</p><a href="https://brapi.dev/" target="_blank" rel="noopener">brapi.dev →</a></div>
+      <div class="srccard"><div class="tier need">Requer feed</div><h4>DI futuro / fluxo / CDS</h4><p>Curva DI, fluxo estrangeiro na B3 e CDS/EMBI não têm API pública limpa — provider de mercado ou scraping.</p><a href="https://www.b3.com.br/" target="_blank" rel="noopener">b3.com.br →</a></div>
+      <div class="srccard"><div class="tier need">Requer provider</div><h4>Exterior (Treasury, DXY, China)</h4><p>Treasury 10Y, DXY, commodities e dados da China via provider global (FRED é grátis p/ Treasury).</p><a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">fred.stlouisfed.org →</a></div>
+      <div class="srccard"><div class="tier pro">Backend recomendado</div><h4>Camada de ingestão</h4><p>Script Python (python-bcb, pandas) que coleta tudo 1x/dia, indexa por data de divulgação, calcula z-scores e grava um JSON que este radar consome.</p><a href="https://wilsonfreitas.github.io/python-bcb/" target="_blank" rel="noopener">python-bcb →</a></div>
+      <div class="srccard"><div class="tier pro">Profissional</div><h4>Bloomberg / LSEG / Economatica</h4><p>Fluxo intradiário, breadth, derivativos e séries proprietárias. Padrão de mesa.</p><a href="https://www.economatica.com/" target="_blank" rel="noopener">economatica.com →</a></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b>Como o score funciona:</b> cada bloco tem um sinal (↑/→/↓) e dois coeficientes — um para a SELIC (peso hawkish) e um para a Bolsa (peso altista). O Score SELIC e o Score Bolsa são a soma ponderada normalizada para −100…+100, e o ponto no mapa de regime é simplesmente (Score SELIC, Score Bolsa). É um modelo de leitura assistida, não um sinal de execução.<br>
+    <b>Próximo passo de produção:</b> conectar a camada de ingestão para alimentar os blocos amarelos, registrar histórico e disparar os alertas automaticamente. Material educativo de apoio à decisão; não constitui recomendação de investimento.
+  </div>
+</div>
+
+<script>
+const DOVE='#43B98C',HAWK='#E0664A',NEU='#5C6B79';
+const num=(n,d=2)=>Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* ===== 13 blocos: cs=coef SELIC (hawkish+), cb=coef Bolsa (altista+), sig=-1/0/1 ===== */
+const BLOCKS=[
+  {id:'infl', nm:'Inflação',        cs:3,  cb:-1,  sig:1,  upTxt:'pressionando', dnTxt:'cedendo'},
+  {id:'exp',  nm:'Expectativas',    cs:3,  cb:-1,  sig:1,  upTxt:'subindo (Focus)', dnTxt:'reancorando'},
+  {id:'di',   nm:'Curva DI',        cs:2,  cb:-3,  sig:0,  upTxt:'abrindo', dnTxt:'fechando'},
+  {id:'fisc', nm:'Fiscal',          cs:2,  cb:-2.5,sig:0,  upTxt:'deteriorando', dnTxt:'melhorando'},
+  {id:'camb', nm:'Câmbio',          cs:2,  cb:-1,  sig:-1, upTxt:'depreciando', dnTxt:'apreciando'},
+  {id:'risk', nm:'Risco-país',      cs:1.5,cb:-2,  sig:0,  upTxt:'CDS/EMBI subindo', dnTxt:'CDS/EMBI caindo'},
+  {id:'ativ', nm:'Atividade',       cs:1.5,cb:1.5, sig:0,  upTxt:'aquecendo', dnTxt:'desacelerando'},
+  {id:'empr', nm:'Emprego/renda',   cs:1.5,cb:0.5, sig:1,  upTxt:'forte/apertado', dnTxt:'afrouxando'},
+  {id:'cred', nm:'Crédito',         cs:1,  cb:1,   sig:0,  upTxt:'reacelerando', dnTxt:'desaquecendo'},
+  {id:'flux', nm:'Fluxo estrangeiro',cs:0, cb:2,   sig:0,  upTxt:'entrando', dnTxt:'saindo'},
+  {id:'comm', nm:'Commodities',     cs:1,  cb:2,   sig:1,  upTxt:'subindo', dnTxt:'caindo'},
+  {id:'ext',  nm:'Exterior',        cs:1.5,cb:-2,  sig:0,  upTxt:'aperto/risk-off', dnTxt:'alívio/risk-on'},
+  {id:'tec',  nm:'Técnico/Breadth', cs:0,  cb:2,   sig:0,  upTxt:'melhorando', dnTxt:'deteriorando'}
+];
+const bmap={}; BLOCKS.forEach(b=>bmap[b.id]=b);
+
+function chip(label, val){ /* val>0 red(hawk/bear) <0 green(dove/bull) for SELIC; bolsa flips meaning of color via caller */
+  return val;
+}
+function tilt(b){
+  const s=b.cs*b.sig, k=b.cb*b.sig;
+  return {selic:s, bolsa:k};
+}
+function dotClass(v, greenIsNeg){ // greenIsNeg true → negative value = green (dovish). false → positive = green (bullish)
+  if(Math.abs(v)<0.01) return 'dotN';
+  const good = greenIsNeg ? v<0 : v>0;
+  return good ? 'dotG' : 'dotR';
+}
+function tiltWord(v, kind){
+  if(Math.abs(v)<0.01) return 'neutro';
+  if(kind==='selic') return v>0?'hawkish':'dovish';
+  return v>0?'altista':'baixista';
+}
+function arrowChar(sig){return sig>0?'↑':sig<0?'↓':'→';}
+function arrowCls(sig){return sig>0?'up':sig<0?'down':'flat';}
+
+function renderSem(){
+  document.getElementById('semgrid').innerHTML=BLOCKS.map(b=>{
+    const t=tilt(b);
+    const stTxt = b.sig>0?b.upTxt : b.sig<0?b.dnTxt : 'neutro / misto';
+    return `<div class="sem" data-id="${b.id}">
+      <div class="top"><span class="nm">${b.nm}</span><span class="tr ${arrowCls(b.sig)}">${arrowChar(b.sig)}</span></div>
+      <div class="st">${stTxt}</div>
+      <div class="chips">
+        <div class="chip"><span class="dot ${dotClass(t.selic,true)}"></span><span class="cl">SELIC</span><span class="vl ${b.cs?'':'flat'}">${b.cs?tiltWord(t.selic,'selic'):'—'}</span></div>
+        <div class="chip"><span class="dot ${dotClass(t.bolsa,false)}"></span><span class="cl">Bolsa</span><span class="vl">${tiltWord(t.bolsa,'bolsa')}</span></div>
+      </div></div>`;
+  }).join('');
+  document.querySelectorAll('.sem').forEach(el=>el.onclick=()=>{
+    const b=bmap[el.dataset.id]; b.sig = b.sig>=1?-1 : b.sig+1; renderSem(); compute();
+  });
+}
+
+function compute(){
+  let sS=0,mS=0,sB=0,mB=0;
+  BLOCKS.forEach(b=>{ sS+=b.cs*b.sig; mS+=Math.abs(b.cs); sB+=b.cb*b.sig; mB+=Math.abs(b.cb); });
+  const selic=sS/mS*100, bolsa=sB/mB*100;
+  // scores
+  document.getElementById('pin-selic').style.left=(50+selic/2.08)+'%';
+  document.getElementById('pin-bolsa').style.left=(50+bolsa/2.08)+'%';
+  const rs=regSelic(selic), rb=regBolsa(bolsa);
+  setReg('reg-selic','num-selic',rs.word,rs.cls,selic);
+  setReg('reg-bolsa','num-bolsa',rb.word,rb.cls,bolsa);
+  // map dot
+  const cx=200+ (selic/100)*150, cy=170 - (bolsa/100)*135;
+  document.getElementById('dot').setAttribute('cx',cx); document.getElementById('dot').setAttribute('cy',cy);
+  document.getElementById('dotglow').setAttribute('cx',cx); document.getElementById('dotglow').setAttribute('cy',cy);
+  document.getElementById('synth').innerHTML=synth(selic,bolsa,rs,rb);
+  renderAlerts(selic,bolsa);
+}
+function setReg(idR,idN,word,cls,v){
+  const e=document.getElementById(idR); e.textContent=word; e.className='reg '+cls;
+  document.getElementById(idN).textContent=(v>=0?'+':'')+Math.round(v)+' / 100';
+}
+function regSelic(v){ if(v>20)return{word:'Hawkish',cls:'up'}; if(v<-20)return{word:'Dovish',cls:'down'}; return{word:'Neutro',cls:'flat'};}
+function regBolsa(v){ if(v>20)return{word:'Risk-on',cls:'down'}; if(v<-20)return{word:'Risk-off',cls:'up'}; return{word:'Neutro',cls:'flat'};}
+function quad(selic,bolsa){
+  if(Math.abs(selic)<20&&Math.abs(bolsa)<20) return 'transição/indefinido';
+  if(selic<=0&&bolsa>=0) return 'Goldilocks (juros caindo, bolsa firme)';
+  if(selic>0&&bolsa>=0) return 'reflação (bolsa resiste apesar dos juros)';
+  if(selic<=0&&bolsa<0) return 'desaceleração (juros caem mas a bolsa cede)';
+  return 'estagflação (juros sobem e a bolsa cai)';
+}
+function synth(selic,bolsa,rs,rb){
+  return `Regime atual: <b>${rb.word} / ${rs.word}</b> — ${quad(selic,bolsa)}. `+
+    `A SELIC tende ${selic>20?'a alta ou pausa hawkish':selic<-20?'a corte':'a manutenção'} e a bolsa está com viés ${bolsa>20?'de alta':bolsa<-20?'de queda':'lateral'}. `+
+    `Confirme cruzando juros, câmbio, risco, fluxo e breadth nos semáforos.`;
+}
+
+/* ===== indicadores-chave (topo) ===== */
+const METRICS=[
+  {id:'m-usd', k:'USD/BRL', v:'5,15', arr:'down', src:'SGS 1', feed:false},
+  {id:'m-di1', k:'DI 1Y',   v:'14,1%',arr:'flat', src:'feed', feed:true},
+  {id:'m-di5', k:'DI 5Y',   v:'13,4%',arr:'down', src:'feed', feed:true},
+  {id:'m-ntnb',k:'NTN-B 2035',v:'7,2%',arr:'flat',src:'feed', feed:true},
+  {id:'m-ibov',k:'Ibovespa',v:'138.4k',arr:'up', src:'brapi', feed:true},
+  {id:'m-ifix',k:'IFIX',    v:'3.420', arr:'up',  src:'brapi', feed:true},
+  {id:'m-cds', k:'CDS Brasil',v:'168', arr:'down',src:'feed', feed:true},
+  {id:'m-ust', k:'Treasury 10Y',v:'4,3%',arr:'flat',src:'feed', feed:true},
+  {id:'m-dxy', k:'DXY',     v:'99,1', arr:'down', src:'feed', feed:true}
+];
+function renderMetrics(){
+  document.getElementById('metrics').innerHTML=METRICS.map(m=>
+    `<div class="metric ${m.feed?'feed':''}"><div class="k">${m.k}</div>
+     <div class="v" id="${m.id}">${m.v}<span class="arr ${m.arr}">${m.arr==='up'?'↑':m.arr==='down'?'↓':'→'}</span></div>
+     <div class="src">${m.src}</div></div>`).join('');
+}
+
+/* ===== drivers / z-scores ===== */
+let win='d5';
+const DRIVERS=[
+  {nm:'USD/BRL', live:true, adverseUp:true},
+  {nm:'DI 1Y', live:false, adverseUp:true, z:{d1:0.4,d5:1.3,d30:0.8,m3:1.9}},
+  {nm:'DI 5Y', live:false, adverseUp:true, z:{d1:-0.3,d5:-1.1,d30:-0.6,m3:0.7}},
+  {nm:'NTN-B 2035', live:false, adverseUp:true, z:{d1:0.1,d5:-0.8,d30:-1.2,m3:0.5}},
+  {nm:'CDS Brasil', live:false, adverseUp:true, z:{d1:-0.5,d5:-1.6,d30:-0.9,m3:-1.4}},
+  {nm:'Ibovespa', live:false, adverseUp:false, z:{d1:0.6,d5:1.8,d30:1.1,m3:2.1}},
+  {nm:'Fluxo estrangeiro', live:false, adverseUp:false, z:{d1:0.2,d5:0.9,d30:1.4,m3:0.6}},
+  {nm:'Treasury 10Y', live:false, adverseUp:true, z:{d1:0.3,d5:0.5,d30:-0.4,m3:1.2}},
+  {nm:'DXY', live:false, adverseUp:true, z:{d1:-0.2,d5:-0.7,d30:-1.0,m3:-0.8}},
+  {nm:'Petróleo (Brent)', live:false, adverseUp:true, z:{d1:1.1,d5:2.3,d30:1.7,m3:1.0}}
+];
+let usdSeries=null;
+function zFromSeries(vals, w){
+  const map={d1:1,d5:5,d30:22,m3:66}; const k=map[w];
+  if(!vals||vals.length<k+10) return 0;
+  const ch=[]; for(let i=k;i<vals.length;i++) ch.push(vals[i]-vals[i-k]);
+  const mean=ch.reduce((a,b)=>a+b,0)/ch.length;
+  const sd=Math.sqrt(ch.reduce((a,b)=>a+(b-mean)**2,0)/ch.length)||1;
+  return (ch[ch.length-1]-mean)/sd;
+}
+function renderDrivers(){
+  const rows=DRIVERS.map(d=>{
+    let z = d.live ? zFromSeries(usdSeries, win) : (d.z[win]||0);
+    return {nm:d.nm, live:d.live, z, adverseUp:d.adverseUp};
+  }).sort((a,b)=>Math.abs(b.z)-Math.abs(a.z));
+  document.getElementById('drvlist').innerHTML=rows.map(r=>{
+    const adverse = r.adverseUp ? r.z>0 : r.z<0;
+    const col = Math.abs(r.z)<0.3 ? NEU : adverse ? HAWK : DOVE;
+    const w=Math.min(Math.abs(r.z)/3,1)*48;
+    const left = r.z>=0;
+    return `<div class="drv"><div class="dn">${r.nm}${r.live?' <small>live</small>':''}</div>
+      <div class="track"><div class="mid"></div>
+        <div class="fill" style="background:${col};${left?'left:50%':'right:50%'};width:${w}%"></div></div>
+      <div class="z" style="color:${col}">${r.z>=0?'+':''}${r.z.toFixed(1)}σ</div></div>`;
+  }).join('');
+}
+document.querySelectorAll('#winrow button').forEach(b=>b.onclick=()=>{
+  win=b.dataset.w; document.querySelectorAll('#winrow button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); renderDrivers();
+});
+
+/* ===== alertas ===== */
+function s(id){return bmap[id].sig;}
+function renderAlerts(selic,bolsa){
+  const A=[
+    {cls:'pos', t:'Reversão positiva da Bolsa',
+     on: bolsa>25 && s('di')<=0 && s('risk')<=0 && s('flux')>=0,
+     d:'Bolsa em risk-on com juros longos e risco cedendo e fluxo não-negativo.',
+     c:`Bolsa +${Math.round(bolsa)} · DI ${arrowChar(s('di'))} · risco ${arrowChar(s('risk'))} · fluxo ${arrowChar(s('flux'))}`},
+    {cls:'neg', t:'Reversão negativa da Bolsa',
+     on: bolsa<-25 && (s('di')>=0 || s('risk')>0 || s('flux')<0),
+     d:'Bolsa em risk-off confirmada por abertura de juros, alta de risco ou saída de fluxo.',
+     c:`Bolsa ${Math.round(bolsa)} · DI ${arrowChar(s('di'))} · risco ${arrowChar(s('risk'))} · fluxo ${arrowChar(s('flux'))}`},
+    {cls:'pos', t:'Ambiente favorável a corte de SELIC',
+     on: selic<-20 && s('infl')<=0 && s('exp')<=0,
+     d:'Score dovish com inflação e expectativas cedendo.',
+     c:`SELIC ${Math.round(selic)} · inflação ${arrowChar(s('infl'))} · expectativas ${arrowChar(s('exp'))}`},
+    {cls:'warn', t:'Corte de SELIC perdendo força',
+     on: selic>-20 && selic<12 && (s('infl')>=0 || s('exp')>=0 || s('camb')>0),
+     d:'Espaço para corte minguando — inflação, expectativas ou câmbio voltando a pressionar.',
+     c:`SELIC ${Math.round(selic)} · inflação ${arrowChar(s('infl'))} · câmbio ${arrowChar(s('camb'))}`},
+    {cls:'warn', t:'Risco de alta ou pausa hawkish',
+     on: selic>20 && (s('infl')>0 || s('exp')>0 || s('camb')>0 || s('comm')>0),
+     d:'Score hawkish com pressão de preços, câmbio ou commodities.',
+     c:`SELIC +${Math.round(selic)} · inflação ${arrowChar(s('infl'))} · commodities ${arrowChar(s('comm'))}`}
+  ];
+  document.getElementById('alerts').innerHTML=A.map(a=>
+    `<div class="alert ${a.cls} ${a.on?'on':''}"><div class="ah"><span class="led"></span>${a.t}</div>
+     <div class="ad">${a.d}</div><div class="cond">${a.c}</div></div>`).join('');
+}
+
+/* ===== calendário ===== */
+const CAL=[
+  ['IPCA','mês anterior','~dia 10','SELIC','a'],
+  ['IPCA-15','mês corrente (parcial)','~dia 25','SELIC','a'],
+  ['COPOM (decisão)','—','17/jun/2026','ambos','a'],
+  ['Ata do COPOM','reunião anterior','~6 dias úteis após','ambos','a'],
+  ['Relatório de Inflação (RTI)','trimestre','mar · jun · set · dez','ambos','m'],
+  ['Boletim Focus','semana corrente','toda segunda','ambos','a'],
+  ['IBC-Br','mês −2','~dia 15','SELIC','m'],
+  ['PIB','trimestre','~60 dias após','ambos','a'],
+  ['PIM / PMC / PMS','mês −1','defasagem ~45d','ambos','m'],
+  ['PNAD / Desemprego','trimestre móvel','defasagem ~40d','SELIC','m'],
+  ['CAGED','mês −1','~dia 25-30','SELIC','m'],
+  ['CPI EUA','mês anterior','~dia 10-15','exterior','a'],
+  ['Payroll EUA','mês anterior','1ª sexta do mês','exterior','m'],
+  ['FOMC / Fed','—','8x por ano','exterior','a'],
+  ['Dados da China','mês anterior','~dia 15','Bolsa','m']
+];
+function renderCal(){
+  document.getElementById('calbody').innerHTML=CAL.map(r=>{
+    const hl = r[0].startsWith('COPOM') ? ' style="color:var(--gold)"' : '';
+    return `<tr><td class="ev"${hl}>${r[0]}</td><td>${r[1]}</td><td${hl}>${r[2]}</td>
+      <td><span class="tag">${r[3]}</span></td><td class="${r[4]==='a'?'rel-a':'rel-m'}">${r[4]==='a'?'Alta':'Média'}</td></tr>`;
+  }).join('');
+}
+
+/* ===== COPOM countdown + nav ===== */
+const COPOM=['2026-01-28','2026-03-18','2026-04-29','2026-06-17','2026-08-05','2026-09-16','2026-11-04','2026-12-09'];
+function copom(){
+  const now=new Date(); now.setHours(0,0,0,0);
+  const next=COPOM.map(d=>new Date(d+'T00:00:00')).find(d=>d>=now);
+  const el=document.getElementById('t-copom');
+  if(!next){el.textContent='a definir';return;}
+  el.textContent=next.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})+' · '+Math.round((next-now)/86400000)+'d';
+}
+const navlinks=[...document.querySelectorAll('#navin a')];
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)
+  navlinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));},
+  ),{rootMargin:'-40% 0px -55% 0px'}).observe;
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)
+  navlinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}),{rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('section').forEach(x=>obs.observe(x));
+
+/* ===== live data (BCB) ===== */
+const SGS=(c,n)=>`https://api.bcb.gov.br/dados/serie/bcdata.sgs.${c}/dados/ultimos/${n}?formato=json`;
+const ANO=new Date().getFullYear();
+function setArr(el,diff){const a=el&&el.querySelector('.arr');if(!a)return;
+  if(diff>0.001){a.textContent='↑';a.className='arr up';}else if(diff<-0.001){a.textContent='↓';a.className='arr down';}else{a.textContent='→';a.className='arr flat';}}
+function setTk(id,txt,diff){const el=document.getElementById(id);if(!el)return;const a=el.querySelector('.arr');el.textContent=txt;if(a){el.appendChild(a);if(diff!==undefined)setArr(el,diff);}}
+async function sgs(c,n){const r=await fetch(SGS(c,n));return r.json();}
+async function focusAnual(ind,top){
+  const base='https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais';
+  const flt=`Indicador eq '${ind}' and DataReferencia eq '${ANO}'`;
+  const url=`${base}?$top=${top}&$orderby=Data desc&$format=json&$select=Indicador,Data,Mediana&$filter=${encodeURIComponent(flt)}`;
+  return (await (await fetch(url)).json()).value;
+}
+function autoSig(diff){ return diff>0.001?1 : diff<-0.001?-1 : 0; }
+
+async function refreshAll(){
+  const ok=[],bad=[];
+  try{const v=(await sgs(432,1)).slice(-1)[0]; setTk('t-selic',num(v.valor)+'%'); ok.push('SELIC');}catch(e){bad.push('SELIC');}
+  try{const d=await sgs(1,30); const last=parseFloat(d.slice(-1)[0].valor), prev=parseFloat(d[0].valor);
+       setTk('t-usd',num(last),last-prev); const mu=document.getElementById('m-usd'); if(mu){mu.firstChild.textContent=num(last); setArr(mu,last-prev);}
+       bmap.camb.sig=autoSig(last-prev); usdSeries=(await sgs(1,400)).map(o=>parseFloat(o.valor)); ok.push('câmbio');}catch(e){bad.push('câmbio');}
+  try{const i=await sgs(13522,2); const last=parseFloat(i.slice(-1)[0].valor), prev=parseFloat(i[0].valor);
+       setTk('t-ipca',num(last)+'%',last-prev); bmap.infl.sig=autoSig(last-prev); ok.push('IPCA');}catch(e){bad.push('IPCA');}
+  try{const fs=await focusAnual('Selic',2); setTk('t-fselic',num(fs[0].Mediana)+'%',fs[0].Mediana-(fs[1]?fs[1].Mediana:fs[0].Mediana)); ok.push('Focus SELIC');}catch(e){bad.push('Focus SELIC');}
+  try{const fe=await focusAnual('IPCA',2); bmap.exp.sig=autoSig(fe[0].Mediana-(fe[1]?fe[1].Mediana:fe[0].Mediana)); ok.push('Focus IPCA');}catch(e){bad.push('Focus IPCA');}
+
+  renderSem(); renderDrivers(); compute();
+  const st=document.getElementById('status');
+  if(ok.length){st.innerHTML='<span class="live">●</span> Blocos gratuitos ao vivo via Banco Central — '+new Date().toLocaleString('pt-BR')+' · '+ok.length+' séries · blocos de mercado pendentes de feed'+(bad.length?' · falhou: '+bad.join(', '):'');}
+  else{st.innerHTML='○ Sem conexão com as APIs (arquivo não hospedado?) — exibindo dados de demonstração.';}
+}
+
+/* ===== consumir o JSON do pipeline (data/radar.json) ===== */
+function applyRadar(d){
+  if(!d) return false;
+  // tickers
+  const T=d.tickers||{};
+  if(T.selic) setTk('t-selic',T.selic.v,T.selic.arr==='up'?1:T.selic.arr==='down'?-1:0);
+  if(T.usd) setTk('t-usd',T.usd.v,T.usd.arr==='up'?1:T.usd.arr==='down'?-1:0);
+  if(T.ipca) setTk('t-ipca',T.ipca.v,T.ipca.arr==='up'?1:T.ipca.arr==='down'?-1:0);
+  if(T.focus_selic) setTk('t-fselic',T.focus_selic.v,T.focus_selic.arr==='up'?1:T.focus_selic.arr==='down'?-1:0);
+  // metrics
+  if(d.metrics){METRICS.forEach(m=>{const x=d.metrics[m.id];if(x){m.v=x.v;m.arr=x.arr;if(x.src)m.src=x.src;}});renderMetrics();}
+  // blocos automaticos
+  if(d.blocks){for(const id in d.blocks){if(bmap[id])bmap[id].sig=d.blocks[id];}}
+  // drivers ao vivo
+  if(d.drivers){d.drivers.forEach(nd=>{const t=DRIVERS.find(x=>x.nm===nd.nm);
+    if(t){t.live=false;t.z=nd.z;t.adverseUp=nd.adverseUp;}});}
+  renderSem(); renderDrivers(); compute();
+  const st=document.getElementById('status');
+  const auto=Object.keys(d.blocks||{}).length, drv=(d.drivers||[]).length;
+  st.innerHTML='<span class="live">●</span> Via pipeline — '+(d.as_of||'')+' · '+auto+' blocos automáticos · '+drv+' drivers ao vivo · manuais: '+((d.manual_blocks||[]).join(', ')||'—');
+  return true;
+}
+async function bootstrap(){
+  try{
+    const r=await fetch('./data/radar.json?_='+Date.now(),{cache:'no-store'});
+    if(r.ok){ applyRadar(await r.json()); return; }
+  }catch(e){}
+  refreshAll();   // fallback: busca direta no BCB (ou demonstracao, se sandbox)
+}
+
+/* init */
+renderMetrics(); renderSem(); renderDrivers(); renderCal(); copom(); compute();
+document.getElementById('btn-refresh').onclick=bootstrap;
+bootstrap();
+setInterval(bootstrap,1000*60*30);
+</script>
+</body>
+</html>

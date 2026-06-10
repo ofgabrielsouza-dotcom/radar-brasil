@@ -1,0 +1,3 @@
+# Radar Brasil - sem dependencias externas.
+# O ingest.py usa apenas a biblioteca padrao do Python (urllib, json, statistics).
+# Mantido por convencao; nao ha nada para instalar.
