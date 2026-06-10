@@ -1,0 +1,43 @@
+name: Atualiza Radar Brasil
+
+on:
+  schedule:
+    - cron: "0 11,21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v4
+
+      - name: Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Coleta os dados (gera data/radar.json)
+        env:
+          BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python ingest.py
+
+      - name: Commita o JSON atualizado
+        run: |
+          git config user.name  "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add data/radar.json
+          if git diff --cached --quiet; then
+            echo "Sem mudancas no radar.json."
+          else
+            git commit -m "radar: atualiza dados [skip ci]"
+            git push
+          fi
