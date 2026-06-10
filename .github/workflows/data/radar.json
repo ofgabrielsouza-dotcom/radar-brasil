@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-06-09T08:00:00",
+  "tickers": {
+    "selic": { "v": "14,50%", "arr": "flat", "date": "09/06/2026" },
+    "usd": { "v": "5,15", "arr": "down" },
+    "ipca": { "v": "5,02%", "arr": "up" },
+    "focus_selic": { "v": "13,50%", "arr": "up" }
+  },
+  "metrics": {
+    "m-usd": { "v": "5,15", "arr": "down", "src": "SGS 1" },
+    "m-ust": { "v": "4,30%", "arr": "flat", "src": "Yahoo" },
+    "m-dxy": { "v": "99,1", "arr": "down", "src": "Yahoo" },
+    "m-ibov": { "v": "138,4k", "arr": "up", "src": "brapi" },
+    "m-ifix": { "v": "3.420", "arr": "up", "src": "brapi" }
+  },
+  "blocks": {
+    "infl": 1,
+    "exp": 1,
+    "di": 1,
+    "fisc": 0,
+    "camb": -1,
+    "ext": 0,
+    "comm": 1,
+    "tec": 1
+  },
+  "drivers": [
+    { "nm": "USD/BRL", "live": true, "adverseUp": true, "z": { "d1": -0.3, "d5": -1.2, "d30": -0.9, "m3": -1.5 } },
+    { "nm": "Treasury 10Y", "live": true, "adverseUp": true, "z": { "d1": 0.2, "d5": 0.5, "d30": -0.4, "m3": 1.1 } },
+    { "nm": "DXY", "live": true, "adverseUp": true, "z": { "d1": -0.2, "d5": -0.7, "d30": -1.0, "m3": -0.8 } },
+    { "nm": "Petroleo (Brent)", "live": true, "adverseUp": true, "z": { "d1": 0.9, "d5": 2.1, "d30": 1.6, "m3": 1.0 } },
+    { "nm": "Ibovespa", "live": true, "adverseUp": false, "z": { "d1": 0.5, "d5": 1.7, "d30": 1.1, "m3": 2.0 } }
+  ],
+  "manual_blocks": ["risk", "ativ", "empr", "cred", "flux"],
+  "notes": {
+    "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial."
+  }
+}
