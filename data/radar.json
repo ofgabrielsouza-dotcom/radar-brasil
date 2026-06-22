@@ -1,37 +1,43 @@
 {
-  "as_of": "2026-06-20T08:33:37",
+  "as_of": "2026-06-22T21:22:47",
   "tickers": {
+    "selic": {
+      "v": "14,25%",
+      "arr": "flat",
+      "date": "05/08/2026"
+    },
     "ipca": {
       "v": "4,72%",
       "arr": "up"
     },
     "focus_selic": {
-      "v": "13,75%",
-      "arr": "down"
+      "v": "14,00%",
+      "arr": "flat"
     }
   },
   "metrics": {
     "m-ust": {
       "v": "0,45%",
-      "arr": "down",
+      "arr": "up",
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "100,8",
+      "v": "101,0",
       "arr": "up",
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "168,6k",
+      "v": "170,4k",
       "arr": "down",
       "src": "brapi"
     }
   },
   "blocks": {
     "infl": 1,
-    "di": -1,
+    "di": 0,
     "exp": -1,
-    "ext": 0,
+    "fisc": -1,
+    "ext": 1,
     "comm": -1,
     "tec": 1
   },
@@ -41,10 +47,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.51,
-        "d5": -0.78,
-        "d30": -0.34,
-        "m3": 0.59
+        "d1": 1.33,
+        "d5": 0.1,
+        "d30": -1.43,
+        "m3": 0.34
       }
     },
     {
@@ -52,10 +58,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.05,
-        "d5": 1.22,
-        "d30": 0.86,
-        "m3": 0.37
+        "d1": 0.35,
+        "d5": 1.39,
+        "d30": 0.95,
+        "m3": 0.53
       }
     },
     {
@@ -63,10 +69,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.14,
-        "d5": -0.95,
-        "d30": -2.1,
-        "m3": -2.62
+        "d1": 0.15,
+        "d5": -0.94,
+        "d30": -2.09,
+        "m3": -2.61
       }
     },
     {
@@ -74,15 +80,14 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": 0.1,
-        "d5": -0.78,
-        "d30": -0.86,
-        "m3": -1.65
+        "d1": 0.93,
+        "d5": -0.17,
+        "d30": -0.98,
+        "m3": -1.66
       }
     }
   ],
   "manual_blocks": [
-    "fisc",
     "risk",
     "ativ",
     "empr",
@@ -90,9 +95,8 @@
     "flux"
   ],
   "notes": {
-    "selic_err": "HTTP Error 504: Gateway Time-out",
+    "selic_ref": "05/08/2026",
     "usd_err": "HTTP Error 400: Bad Request",
-    "fisc_err": "HTTP Error 502: Bad Gateway",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
