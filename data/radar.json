@@ -1,11 +1,6 @@
 {
-  "as_of": "2026-07-22T21:52:49",
+  "as_of": "2026-07-23T12:16:57",
   "tickers": {
-    "selic": {
-      "v": "14,25%",
-      "arr": "flat",
-      "date": "05/08/2026"
-    },
     "ipca": {
       "v": "4,64%",
       "arr": "up"
@@ -22,7 +17,7 @@
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "101,1",
+      "v": "101,3",
       "arr": "up",
       "src": "Yahoo"
     },
@@ -58,10 +53,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.18,
-        "d5": 0.63,
-        "d30": -0.39,
-        "m3": 2.01
+        "d1": 0.36,
+        "d5": 0.53,
+        "d30": -0.41,
+        "m3": 2.26
       }
     },
     {
@@ -69,10 +64,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.64,
-        "d5": 0.95,
-        "d30": 0.58,
-        "m3": -0.38
+        "d1": -0.31,
+        "d5": 0.93,
+        "d30": 0.63,
+        "m3": -0.08
       }
     },
     {
@@ -95,7 +90,7 @@
     "flux"
   ],
   "notes": {
-    "selic_ref": "05/08/2026",
+    "selic_err": "HTTP Error 502: Bad Gateway",
     "usd_err": "HTTP Error 400: Bad Request",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
