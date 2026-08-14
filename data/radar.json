@@ -1,6 +1,11 @@
 {
-  "as_of": "2026-08-13T21:31:53",
+  "as_of": "2026-08-14T11:34:01",
   "tickers": {
+    "selic": {
+      "v": "14,00%",
+      "arr": "flat",
+      "date": "16/09/2026"
+    },
     "ipca": {
       "v": "4,44%",
       "arr": "up"
@@ -17,8 +22,8 @@
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "100,0",
-      "arr": "down",
+      "v": "99,7",
+      "arr": "up",
       "src": "Yahoo"
     },
     "m-ibov": {
@@ -32,7 +37,7 @@
     "di": 0,
     "exp": 1,
     "fisc": -1,
-    "ext": -1,
+    "ext": 0,
     "comm": 1,
     "tec": -1
   },
@@ -42,10 +47,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -1.06,
-        "d5": -0.66,
-        "d30": -0.43,
-        "m3": -0.16
+        "d1": -1.1,
+        "d5": -1.2,
+        "d30": 0.0,
+        "m3": 0.0
       }
     },
     {
@@ -53,10 +58,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.22,
-        "d5": -0.14,
-        "d30": -1.02,
-        "m3": 0.71
+        "d1": -0.97,
+        "d5": -0.05,
+        "d30": -1.25,
+        "m3": 0.17
       }
     },
     {
@@ -64,10 +69,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.5,
-        "d5": 0.42,
-        "d30": 0.05,
-        "m3": -0.19
+        "d1": -0.01,
+        "d5": 0.33,
+        "d30": 0.07,
+        "m3": -0.28
       }
     },
     {
@@ -76,9 +81,9 @@
       "adverseUp": false,
       "z": {
         "d1": -0.27,
-        "d5": -2.13,
-        "d30": -1.22,
-        "m3": -1.22
+        "d5": -2.14,
+        "d30": -0.86,
+        "m3": -1.38
       }
     }
   ],
@@ -90,7 +95,7 @@
     "flux"
   ],
   "notes": {
-    "selic_err": "HTTP Error 502: Bad Gateway",
+    "selic_ref": "16/09/2026",
     "usd_err": "HTTP Error 400: Bad Request",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
