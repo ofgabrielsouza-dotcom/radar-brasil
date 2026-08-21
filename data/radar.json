@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-21T11:14:16",
+  "as_of": "2026-08-21T21:11:17",
   "tickers": {
     "selic": {
       "v": "14,00%",
@@ -22,14 +22,9 @@
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "98,7",
+      "v": "98,8",
       "arr": "down",
       "src": "Yahoo"
-    },
-    "m-ibov": {
-      "v": "167,9k",
-      "arr": "up",
-      "src": "brapi"
     }
   },
   "blocks": {
@@ -38,8 +33,7 @@
     "exp": -1,
     "fisc": -1,
     "ext": 0,
-    "comm": 1,
-    "tec": -1
+    "comm": 1
   },
   "drivers": [
     {
@@ -47,10 +41,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.88,
-        "d5": 0.34,
-        "d30": -0.32,
-        "m3": -1.45
+        "d1": 0.84,
+        "d5": 0.17,
+        "d30": -0.2,
+        "m3": -1.28
       }
     },
     {
@@ -58,10 +52,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.75,
-        "d5": -1.41,
-        "d30": -1.94,
-        "m3": -2.06
+        "d1": -0.21,
+        "d5": -1.18,
+        "d30": -1.81,
+        "m3": -1.86
       }
     },
     {
@@ -69,21 +63,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.01,
-        "d5": 0.52,
-        "d30": 0.02,
-        "m3": -0.22
-      }
-    },
-    {
-      "nm": "Ibovespa",
-      "live": true,
-      "adverseUp": false,
-      "z": {
         "d1": -0.02,
-        "d5": 0.05,
-        "d30": -0.79,
-        "m3": -0.82
+        "d5": 0.51,
+        "d30": 0.01,
+        "m3": -0.23
       }
     }
   ],
@@ -97,6 +80,7 @@
   "notes": {
     "selic_ref": "16/09/2026",
     "usd_err": "HTTP Error 400: Bad Request",
+    "ibov_err": "<urlopen error _ssl.c:993: The handshake operation timed out>",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
