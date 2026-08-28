@@ -1,14 +1,10 @@
 {
-  "as_of": "2026-08-28T04:58:47",
+  "as_of": "2026-08-28T21:16:26",
   "tickers": {
     "selic": {
       "v": "14,00%",
       "arr": "flat",
       "date": "16/09/2026"
-    },
-    "ipca": {
-      "v": "4,44%",
-      "arr": "up"
     },
     "focus_selic": {
       "v": "13,75%",
@@ -22,18 +18,17 @@
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "99,2",
+      "v": "99,7",
       "arr": "up",
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "175,1k",
+      "v": "175,7k",
       "arr": "up",
       "src": "brapi"
     }
   },
   "blocks": {
-    "infl": 1,
     "di": 0,
     "exp": -1,
     "fisc": -1,
@@ -47,10 +42,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.05,
-        "d5": -0.62,
-        "d30": -0.22,
-        "m3": -1.08
+        "d1": 0.99,
+        "d5": -0.53,
+        "d30": 0.05,
+        "m3": -0.15
       }
     },
     {
@@ -58,10 +53,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.03,
-        "d5": 0.51,
-        "d30": -1.16,
-        "m3": -1.38
+        "d1": 1.53,
+        "d5": 1.19,
+        "d30": -0.81,
+        "m3": -0.88
       }
     },
     {
@@ -69,10 +64,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.33,
+        "d1": -0.34,
         "d5": -0.74,
-        "d30": 0.0,
-        "m3": 0.44
+        "d30": -0.0,
+        "m3": 0.43
       }
     },
     {
@@ -80,10 +75,10 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": 0.22,
-        "d5": 1.5,
-        "d30": -0.4,
-        "m3": -0.54
+        "d1": 0.21,
+        "d5": 0.91,
+        "d30": -0.09,
+        "m3": -0.46
       }
     }
   ],
@@ -97,6 +92,7 @@
   "notes": {
     "selic_ref": "16/09/2026",
     "usd_err": "HTTP Error 400: Bad Request",
+    "ipca_err": "HTTP Error 502: Bad Gateway",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
