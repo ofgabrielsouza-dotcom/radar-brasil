@@ -1,15 +1,6 @@
 {
-  "as_of": "2026-10-02T16:23:16",
+  "as_of": "2026-10-03T00:01:49",
   "tickers": {
-    "selic": {
-      "v": "13,75%",
-      "arr": "flat",
-      "date": "04/11/2026"
-    },
-    "ipca": {
-      "v": "4,22%",
-      "arr": "down"
-    },
     "focus_selic": {
       "v": "13,50%",
       "arr": "flat"
@@ -27,16 +18,14 @@
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "187,4k",
+      "v": "192,1k",
       "arr": "up",
       "src": "brapi"
     }
   },
   "blocks": {
-    "infl": -1,
     "di": 0,
     "exp": -1,
-    "fisc": -1,
     "ext": 1,
     "comm": -1,
     "tec": 1
@@ -47,10 +36,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.42,
-        "d5": 0.44,
-        "d30": 2.0,
-        "m3": 2.37
+        "d1": 0.77,
+        "d5": 0.6,
+        "d30": 2.09,
+        "m3": 2.44
       }
     },
     {
@@ -69,10 +58,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.27,
-        "d5": -0.39,
-        "d30": 0.45,
-        "m3": 1.69
+        "d1": 0.13,
+        "d5": -0.21,
+        "d30": 0.54,
+        "m3": 1.76
       }
     },
     {
@@ -80,14 +69,15 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": 0.02,
-        "d5": 0.67,
-        "d30": 0.33,
-        "m3": 0.36
+        "d1": 2.41,
+        "d5": 1.7,
+        "d30": 0.75,
+        "m3": 0.6
       }
     }
   ],
   "manual_blocks": [
+    "fisc",
     "risk",
     "ativ",
     "empr",
@@ -95,8 +85,10 @@
     "flux"
   ],
   "notes": {
-    "selic_ref": "04/11/2026",
-    "usd_err": "HTTP Error 400: Bad Request",
+    "selic_err": "<urlopen error [Errno -2] Name or service not known>",
+    "usd_err": "<urlopen error [Errno -2] Name or service not known>",
+    "ipca_err": "<urlopen error [Errno -2] Name or service not known>",
+    "fisc_err": "<urlopen error [Errno -2] Name or service not known>",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
