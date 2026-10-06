@@ -1,9 +1,13 @@
 {
-  "as_of": "2026-10-03T00:01:49",
+  "as_of": "2026-10-06T01:38:58",
   "tickers": {
+    "ipca": {
+      "v": "4,22%",
+      "arr": "down"
+    },
     "focus_selic": {
       "v": "13,50%",
-      "arr": "flat"
+      "arr": "up"
     }
   },
   "metrics": {
@@ -13,19 +17,21 @@
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "101,9",
+      "v": "102,1",
       "arr": "up",
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "192,1k",
+      "v": "206,9k",
       "arr": "up",
       "src": "brapi"
     }
   },
   "blocks": {
-    "di": 0,
+    "infl": -1,
+    "di": 1,
     "exp": -1,
+    "fisc": -1,
     "ext": 1,
     "comm": -1,
     "tec": 1
@@ -36,10 +42,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.77,
-        "d5": 0.6,
-        "d30": 2.09,
-        "m3": 2.44
+        "d1": 0.62,
+        "d5": 0.35,
+        "d30": 2.23,
+        "m3": 2.19
       }
     },
     {
@@ -47,10 +53,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.65,
-        "d5": 1.17,
-        "d30": 1.37,
-        "m3": -0.17
+        "d1": -0.41,
+        "d5": 0.8,
+        "d30": 1.88,
+        "m3": 0.24
       }
     },
     {
@@ -58,10 +64,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.13,
-        "d5": -0.21,
-        "d30": 0.54,
-        "m3": 1.76
+        "d1": -0.48,
+        "d5": -0.64,
+        "d30": 0.33,
+        "m3": 1.66
       }
     },
     {
@@ -69,15 +75,14 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": 2.41,
-        "d5": 1.7,
-        "d30": 0.75,
-        "m3": 0.6
+        "d1": 6.7,
+        "d5": 4.78,
+        "d30": 1.57,
+        "m3": 1.29
       }
     }
   ],
   "manual_blocks": [
-    "fisc",
     "risk",
     "ativ",
     "empr",
@@ -85,10 +90,8 @@
     "flux"
   ],
   "notes": {
-    "selic_err": "<urlopen error [Errno -2] Name or service not known>",
-    "usd_err": "<urlopen error [Errno -2] Name or service not known>",
-    "ipca_err": "<urlopen error [Errno -2] Name or service not known>",
-    "fisc_err": "<urlopen error [Errno -2] Name or service not known>",
+    "selic_err": "The read operation timed out",
+    "usd_err": "HTTP Error 400: Bad Request",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
