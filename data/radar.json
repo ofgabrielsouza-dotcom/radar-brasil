@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-07T00:12:14",
+  "as_of": "2026-10-07T17:33:52",
   "tickers": {
     "selic": {
       "v": "13,75%",
@@ -18,16 +18,16 @@
   "metrics": {
     "m-ust": {
       "v": "0,53%",
-      "arr": "up",
+      "arr": "down",
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "101,9",
+      "v": "102,3",
       "arr": "up",
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "205,8k",
+      "v": "205,4k",
       "arr": "up",
       "src": "brapi"
     }
@@ -37,7 +37,7 @@
     "di": 1,
     "exp": -1,
     "fisc": -1,
-    "ext": 1,
+    "ext": 0,
     "comm": -1,
     "tec": 1
   },
@@ -47,10 +47,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -1.17,
-        "d5": -0.28,
-        "d30": 2.12,
-        "m3": 1.87
+        "d1": -0.03,
+        "d5": -0.64,
+        "d30": 1.97,
+        "m3": 1.84
       }
     },
     {
@@ -58,10 +58,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.95,
-        "d5": 0.58,
-        "d30": 1.77,
-        "m3": 0.1
+        "d1": 1.36,
+        "d5": 0.94,
+        "d30": 1.86,
+        "m3": 0.41
       }
     },
     {
@@ -69,10 +69,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.3,
-        "d5": -0.18,
-        "d30": 0.38,
-        "m3": 1.64
+        "d1": -0.11,
+        "d5": -0.47,
+        "d30": 0.25,
+        "m3": 1.52
       }
     },
     {
@@ -80,10 +80,10 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": -0.61,
-        "d5": 4.21,
-        "d30": 1.46,
-        "m3": 1.15
+        "d1": -0.33,
+        "d5": 3.5,
+        "d30": 1.42,
+        "m3": 1.21
       }
     }
   ],
@@ -96,7 +96,7 @@
   ],
   "notes": {
     "selic_ref": "04/11/2026",
-    "usd_err": "Expecting value: line 1 column 1 (char 0)",
+    "usd_err": "HTTP Error 400: Bad Request",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
