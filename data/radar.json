@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-06T16:57:45",
+  "as_of": "2026-10-07T00:12:14",
   "tickers": {
     "selic": {
       "v": "13,75%",
@@ -27,7 +27,7 @@
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "205,9k",
+      "v": "205,8k",
       "arr": "up",
       "src": "brapi"
     }
@@ -47,10 +47,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -1.03,
-        "d5": -0.21,
-        "d30": 2.15,
-        "m3": 1.9
+        "d1": -1.17,
+        "d5": -0.28,
+        "d30": 2.12,
+        "m3": 1.87
       }
     },
     {
@@ -58,10 +58,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -1.04,
-        "d5": 0.55,
-        "d30": 1.75,
-        "m3": 0.08
+        "d1": -0.95,
+        "d5": 0.58,
+        "d30": 1.77,
+        "m3": 0.1
       }
     },
     {
@@ -69,10 +69,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.06,
-        "d5": -0.34,
-        "d30": 0.3,
-        "m3": 1.58
+        "d1": 0.3,
+        "d5": -0.18,
+        "d30": 0.38,
+        "m3": 1.64
       }
     },
     {
@@ -80,10 +80,10 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": -0.57,
-        "d5": 4.22,
-        "d30": 1.47,
-        "m3": 1.16
+        "d1": -0.61,
+        "d5": 4.21,
+        "d30": 1.46,
+        "m3": 1.15
       }
     }
   ],
@@ -96,7 +96,7 @@
   ],
   "notes": {
     "selic_ref": "04/11/2026",
-    "usd_err": "HTTP Error 400: Bad Request",
+    "usd_err": "Expecting value: line 1 column 1 (char 0)",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
