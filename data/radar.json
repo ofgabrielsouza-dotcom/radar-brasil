@@ -1,10 +1,14 @@
 {
-  "as_of": "2026-10-13T23:59:34",
+  "as_of": "2026-10-14T15:34:18",
   "tickers": {
     "selic": {
       "v": "13,75%",
       "arr": "flat",
       "date": "04/11/2026"
+    },
+    "ipca": {
+      "v": "4,58%",
+      "arr": "down"
     },
     "focus_selic": {
       "v": "13,25%",
@@ -13,22 +17,23 @@
   },
   "metrics": {
     "m-ust": {
-      "v": "0,52%",
+      "v": "0,53%",
       "arr": "down",
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "102,2",
+      "v": "102,9",
       "arr": "up",
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "206,9k",
+      "v": "205,1k",
       "arr": "down",
       "src": "brapi"
     }
   },
   "blocks": {
+    "infl": -1,
     "di": 0,
     "exp": 1,
     "fisc": -1,
@@ -42,10 +47,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.72,
-        "d5": -1.02,
-        "d30": 0.43,
-        "m3": 1.0
+        "d1": 0.72,
+        "d5": -0.69,
+        "d30": 0.72,
+        "m3": 0.96
       }
     },
     {
@@ -53,10 +58,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -1.43,
-        "d5": 0.28,
-        "d30": 1.65,
-        "m3": 0.29
+        "d1": 2.23,
+        "d5": 0.68,
+        "d30": 1.84,
+        "m3": 0.65
       }
     },
     {
@@ -64,10 +69,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.09,
-        "d5": 0.74,
-        "d30": 0.12,
-        "m3": 1.42
+        "d1": -0.03,
+        "d5": 0.69,
+        "d30": 0.01,
+        "m3": 0.99
       }
     },
     {
@@ -75,10 +80,10 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": -1.12,
-        "d5": -0.25,
-        "d30": 1.26,
-        "m3": 1.26
+        "d1": -0.93,
+        "d5": -0.38,
+        "d30": 1.19,
+        "m3": 0.91
       }
     }
   ],
@@ -92,7 +97,6 @@
   "notes": {
     "selic_ref": "04/11/2026",
     "usd_err": "HTTP Error 400: Bad Request",
-    "ipca_err": "HTTP Error 502: Bad Gateway",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
