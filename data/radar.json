@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-15T23:20:51",
+  "as_of": "2026-10-16T15:02:20",
   "tickers": {
     "selic": {
       "v": "13,75%",
@@ -22,13 +22,13 @@
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "102,0",
+      "v": "101,6",
       "arr": "down",
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "204,3k",
-      "arr": "up",
+      "v": "204,6k",
+      "arr": "down",
       "src": "brapi"
     }
   },
@@ -36,7 +36,6 @@
     "infl": -1,
     "di": 0,
     "exp": 1,
-    "fisc": -1,
     "ext": -1,
     "comm": 1,
     "tec": 1
@@ -47,10 +46,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -2.49,
+        "d1": 0.06,
         "d5": -1.97,
         "d30": -0.43,
-        "m3": 0.33
+        "m3": 0.53
       }
     },
     {
@@ -58,10 +57,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -1.94,
-        "d5": -0.44,
-        "d30": 1.12,
-        "m3": 0.2
+        "d1": -1.27,
+        "d5": -1.05,
+        "d30": 0.45,
+        "m3": 0.31
       }
     },
     {
@@ -69,10 +68,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.16,
-        "d5": 0.13,
-        "d30": -0.19,
-        "m3": 0.89
+        "d1": -0.05,
+        "d5": 0.1,
+        "d30": 0.02,
+        "m3": 0.87
       }
     },
     {
@@ -80,14 +79,15 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": -1.11,
-        "d5": -0.24,
-        "d30": 1.27,
-        "m3": 0.98
+        "d1": 0.02,
+        "d5": -0.54,
+        "d30": 1.21,
+        "m3": 0.95
       }
     }
   ],
   "manual_blocks": [
+    "fisc",
     "risk",
     "ativ",
     "empr",
@@ -97,6 +97,7 @@
   "notes": {
     "selic_ref": "04/11/2026",
     "usd_err": "HTTP Error 400: Bad Request",
+    "fisc_err": "HTTP Error 502: Bad Gateway",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
