@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-26T17:01:56",
+  "as_of": "2026-10-27T00:06:48",
   "tickers": {
     "selic": {
       "v": "13,75%",
@@ -22,12 +22,12 @@
       "src": "Yahoo"
     },
     "m-dxy": {
-      "v": "101,9",
-      "arr": "down",
+      "v": "102,0",
+      "arr": "up",
       "src": "Yahoo"
     },
     "m-ibov": {
-      "v": "172,6k",
+      "v": "176,6k",
       "arr": "down",
       "src": "brapi"
     }
@@ -36,8 +36,7 @@
     "infl": -1,
     "di": 0,
     "exp": -1,
-    "fisc": -1,
-    "ext": -1,
+    "ext": 0,
     "comm": 1,
     "tec": -1
   },
@@ -47,10 +46,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -0.28,
-        "d5": -1.88,
-        "d30": -1.89,
-        "m3": -0.71
+        "d1": -0.15,
+        "d5": -1.82,
+        "d30": -1.86,
+        "m3": -0.68
       }
     },
     {
@@ -58,10 +57,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": 0.37,
-        "d5": -0.24,
-        "d30": -0.01,
-        "m3": -0.11
+        "d1": 0.6,
+        "d5": -0.14,
+        "d30": 0.03,
+        "m3": -0.02
       }
     },
     {
@@ -69,10 +68,10 @@
       "live": true,
       "adverseUp": true,
       "z": {
-        "d1": -1.56,
-        "d5": 0.34,
-        "d30": 0.37,
-        "m3": 0.25
+        "d1": -2.02,
+        "d5": 0.14,
+        "d30": 0.27,
+        "m3": 0.18
       }
     },
     {
@@ -80,14 +79,15 @@
       "live": true,
       "adverseUp": false,
       "z": {
-        "d1": -10.74,
-        "d5": -5.83,
-        "d30": -1.49,
-        "m3": -0.68
+        "d1": -9.99,
+        "d5": -5.22,
+        "d30": -1.16,
+        "m3": -0.48
       }
     }
   ],
   "manual_blocks": [
+    "fisc",
     "risk",
     "ativ",
     "empr",
@@ -97,6 +97,7 @@
   "notes": {
     "selic_ref": "04/11/2026",
     "usd_err": "HTTP Error 400: Bad Request",
+    "fisc_err": "Expecting value: line 1 column 1 (char 0)",
     "manual": "Sem feed gratuito: DI futuro, CDS/EMBI, fluxo estrangeiro, breadth setorial. Ajuste manual no radar ou conecte um provider."
   }
 }
